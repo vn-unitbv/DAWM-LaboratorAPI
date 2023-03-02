@@ -41,7 +41,7 @@ namespace Project.Controllers
         }
 
         [HttpPost("example-post-json")]
-        public ActionResult<string> Post_Json([FromBody] Payload data)
+        public ActionResult<string> Post_Json([FromBody] Payload payload)
         {
             /*
              * Request body can be:
@@ -49,7 +49,7 @@ namespace Project.Controllers
              */
 
             var result = $"This is a simple example for [POST] http://localhost5000/api/home/example-post\n";
-            result += $"Data is: {data}";
+            result += $"Data is: {payload?.Data}";
 
             return Ok(result);
         }
