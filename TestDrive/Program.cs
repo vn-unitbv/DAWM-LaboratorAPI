@@ -5,42 +5,51 @@ namespace TestDrive;
 
 public class Program
 {
-    public const int number = 10;
-    /*
-     * string result;
+    public static void Main(string[] args)
+    {
+        //Delegate_Example();
+        //Linq_Example();
+    }
+
+    public static void Delegate_Example()
+    {
+        string result;
 
         var delegateExamples = new DelegateExamples();
         var myDelegate = new MyMethodDelegate(delegateExamples.MyMethod);
 
-        result = myDelegate(number);
+        result = myDelegate(prop: 10);
         Console.WriteLine(result);
 
         myDelegate = delegateExamples.MySecondMethod;
 
-        result = myDelegate(number);
+        result = myDelegate(prop: 10);
         Console.WriteLine(result);
-     */
-    public static void Main(string[] args)
+    }
+
+    public static void Linq_Example()
     {
-        // IEnumerable
+        var listOfStrings = new List<string>() { "a", "b", "c", "d", "e" };
+        var result = listOfStrings.DoSomething();
 
-        List<string> strings = new List<string>() { "a", "b", "c", "d", "e"};
-
-        var result = strings.ParseList();
-
+        foreach(var item in result)
+        {
+            Console.Write(item + " ");
+        }
     }
 }
 
 public static class ExtensionMethods
 {
-    public static IEnumerable<string> ParseList(this List<string> strings)
+    public static List<string> DoSomething(this List<string> listOfStrings)
     {
-        return strings
-            .Where(x => x != "a")
-            .Where(x => x != "b")
-            .Where(x => x != "c")
-            .Select(x => x + "_")
-            .Select(x => x.ToUpper())
-            .OrderByDescending(x => x);
+        var another_list = new List<int> { 1, 2, 3, 4, 5 };
+
+        return listOfStrings
+            .Where(x => x != "a" && x != "b")
+            .Select(x => x.ToUpper() + "_")
+            .Union(another_list.Select(i => i.ToString()))
+            .OrderByDescending(x => x)
+            .ToList();
     }
 }
