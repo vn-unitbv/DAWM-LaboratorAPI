@@ -1,6 +1,6 @@
-﻿using DataLayer.Entities;
-using Logic.Dtos;
-using Logic.Services;
+﻿using Core.Dtos;
+using Core.Services;
+using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Project.Controllers

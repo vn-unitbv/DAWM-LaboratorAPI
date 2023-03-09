@@ -1,13 +1,8 @@
-﻿using DataLayer.Entities;
+﻿using Core.Dtos;
+using DataLayer.Entities;
 using DataLayer.Repositories;
-using Logic.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Logic.Services
+namespace Core.Services
 {
     public class StudentService
     {
@@ -40,7 +35,7 @@ namespace Logic.Services
             }
 
             var result = studentsRepository.GetById(payload.Id);
-            if(result == null) return false;
+            if (result == null) return false;
 
             result.FirstName = payload.FirstName;
             result.LastName = payload.LastName;

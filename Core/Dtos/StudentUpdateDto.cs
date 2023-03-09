@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Logic.Dtos
+namespace Core.Dtos
 {
     public class StudentUpdateDto
     {

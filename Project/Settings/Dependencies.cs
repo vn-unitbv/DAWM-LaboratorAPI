@@ -1,5 +1,5 @@
 ﻿using DataLayer.Repositories;
-using Logic.Services;
+using Core.Services;
 
 namespace Project.Settings
 {
