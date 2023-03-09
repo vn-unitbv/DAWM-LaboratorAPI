@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities;
+using Logic.Dtos;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace Project.Controllers
     public class StudentsController : ControllerBase
     {
         private StudentService studentService { get; set; }
+
 
         public StudentsController(StudentService studentService)
         {
@@ -34,6 +36,19 @@ namespace Project.Controllers
             }
 
             return Ok(result);
+        }
+
+        [HttpPatch("edit-name")]
+        public ActionResult<bool> GetById([FromBody] StudentUpdateDto studentUpdateModel)
+        {
+            var result = studentService.EditName(studentUpdateModel);
+
+            if (!result)
+            {
+                return BadRequest("Student could not be updated.");
+            }
+
+            return result;
         }
     }
 }

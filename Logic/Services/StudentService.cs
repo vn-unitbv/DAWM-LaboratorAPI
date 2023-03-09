@@ -1,5 +1,6 @@
 ﻿using DataLayer.Entities;
 using DataLayer.Repositories;
+using Logic.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,5 +32,20 @@ namespace Logic.Services
             return result;
         }
 
+        public bool EditName(StudentUpdateDto payload)
+        {
+            if (payload == null || payload.FirstName == null || payload.LastName == null)
+            {
+                return false;
+            }
+
+            var result = studentsRepository.GetById(payload.Id);
+            if(result == null) return false;
+
+            result.FirstName = payload.FirstName;
+            result.LastName = payload.LastName;
+
+            return true;
+        }
     }
 }
