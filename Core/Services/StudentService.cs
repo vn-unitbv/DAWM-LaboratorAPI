@@ -1,5 +1,7 @@
 ﻿using Core.Dtos;
+using DataLayer.Dtos;
 using DataLayer.Entities;
+using DataLayer.Mapping;
 using DataLayer.Repositories;
 
 namespace Core.Services
@@ -20,9 +22,11 @@ namespace Core.Services
             return results;
         }
 
-        public Student GetById(int studentId)
+        public StudentDto GetById(int studentId)
         {
-            var result = studentsRepository.GetById(studentId);
+            var student = studentsRepository.GetById(studentId);
+
+            var result = student.ToStudentDto();
 
             return result;
         }

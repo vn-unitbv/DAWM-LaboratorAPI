@@ -12,6 +12,5 @@ public class Student
     public List<Grade> Grades { get; set; }
 
     public string Address { get; set; }
-
 }
 
