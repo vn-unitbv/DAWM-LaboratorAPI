@@ -51,13 +51,12 @@ namespace Project.Controllers
             return result;
         }
 
-        [HttpGet("grades-by-course/{studentId}/{courseType}")]
-        public ActionResult GetGradesByCourseByStudentId([FromRoute] CourseType courseType, [FromRoute] int studentId)
+        [HttpPost("grades-by-course")]
+        public ActionResult<GradesByStudent> Get_CourseGrades_ByStudentId([FromBody] StudentGradesRequest request)
         {
-            var result = studentService.Get_WithFilteredGrades_GetById(studentId, courseType);
+            var result = studentService.GetGradesById(request.StudentId, request.CourseType);
             return Ok(result);
         }
-
 
     }
 }

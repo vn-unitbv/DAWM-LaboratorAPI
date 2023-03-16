@@ -43,9 +43,11 @@ namespace Core.Services
             return true;
         }
 
-        public Student Get_WithFilteredGrades_GetById(int studentId, CourseType courseType)
+        public GradesByStudent GetGradesById(int studentId, CourseType courseType)
         {
-            var result = studentsRepository.GetByIdWithGrades(studentId, courseType);
+            var studentWithGrades = studentsRepository.GetByIdWithGrades(studentId, courseType);
+            
+            var result = new GradesByStudent(studentWithGrades);
 
             return result;
         }
