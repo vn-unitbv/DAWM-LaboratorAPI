@@ -23,20 +23,27 @@ namespace DataLayer
                             new Grade
                             {
                                 Id = 1,
-                                Value = 8.5,
+                                Value = 10,
                                 Course = CourseType.Chemistry,
                                 StudentId = 1
                             },
                             new Grade
                             {
                                 Id = 2,
+                                Value = 8.5,
+                                Course = CourseType.Chemistry,
+                                StudentId = 1
+                            },
+                            new Grade
+                            {
+                                Id = 3,
                                 Value = 10,
                                 Course = CourseType.Math,
                                 StudentId = 1
                             },
                                new Grade
                             {
-                                Id = 3,
+                                Id = 4,
                                 Value = 5,
                                 Course = CourseType.German,
                                 StudentId = 1
