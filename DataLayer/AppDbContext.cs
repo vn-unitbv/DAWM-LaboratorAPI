@@ -1,7 +1,5 @@
 ﻿using DataLayer.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using System.Security.Principal;
 
 namespace DataLayer
 {
@@ -10,7 +8,12 @@ namespace DataLayer
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .UseSqlServer("Server=local;Database=LabProject;User Id=adonici;Password=123456;");
+                .UseSqlServer("Server=localhost;Database=LabProject;User Id=adonici;Password=123456;");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Class> Classes { get; set; }
