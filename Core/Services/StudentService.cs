@@ -1,6 +1,7 @@
 ﻿using Core.Dtos;
 using DataLayer.Dtos;
 using DataLayer.Entities;
+using DataLayer.Enums;
 using DataLayer.Mapping;
 using DataLayer.Repositories;
 

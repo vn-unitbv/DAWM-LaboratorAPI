@@ -1,4 +1,4 @@
-﻿namespace DataLayer.Entities;
+﻿namespace DataLayer.Enums;
 
 public enum CourseType
 {

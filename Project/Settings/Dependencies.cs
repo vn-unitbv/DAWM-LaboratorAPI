@@ -1,5 +1,7 @@
 ﻿using DataLayer.Repositories;
 using Core.Services;
+using DataLayer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Project.Settings
 {
@@ -10,6 +12,8 @@ namespace Project.Settings
         {
             applicationBuilder.Services.AddControllers();
             applicationBuilder.Services.AddSwaggerGen();
+
+            applicationBuilder.Services.AddDbContext<AppDbContext>();
 
             AddRepositories(applicationBuilder.Services);
             AddServices(applicationBuilder.Services);

@@ -1,4 +1,4 @@
-﻿using DataLayer.Entities;
+﻿using DataLayer.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Dtos

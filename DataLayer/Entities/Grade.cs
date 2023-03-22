@@ -1,4 +1,6 @@
-﻿namespace DataLayer.Entities;
+﻿using DataLayer.Enums;
+
+namespace DataLayer.Entities;
 
 public class Grade
 {

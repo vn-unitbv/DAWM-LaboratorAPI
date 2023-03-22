@@ -1,19 +1,28 @@
 ﻿using DataLayer.Entities;
+using DataLayer.Enums;
 
 namespace DataLayer.Repositories
 {
     public class StudentsRepository
     {
+        private readonly AppDbContext dbContext;
+
+        public StudentsRepository(AppDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
         public List<Student> GetAll()
         {
-            var results = DbContext.Students;
+            var results = dbContext.Students
+                .ToList();
 
             return results;
         }
 
         public Student GetById(int studentId)
         {
-            var result = DbContext.Students
+            var result = dbContext.Students
                 .Where(e => e.Id == studentId)
                 .FirstOrDefault();
 
@@ -22,7 +31,7 @@ namespace DataLayer.Repositories
 
         public Student GetByIdWithGrades(int studentId, CourseType type)
         {
-            var result = DbContext.Students
+            var result = dbContext.Students
                .Select(e => new Student
                {
                     FirstName= e.FirstName,
