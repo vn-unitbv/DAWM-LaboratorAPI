@@ -14,6 +14,8 @@ namespace DataLayer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Class>().Property(e => e.Name).HasMaxLength(10);
         }
 
         public DbSet<Class> Classes { get; set; }
