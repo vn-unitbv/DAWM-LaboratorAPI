@@ -79,5 +79,21 @@ namespace Core.Services
 
             return result;
         }
+
+        public List<string> GetClassStudents(int classId)
+        {
+            var students = unitOfWork.Students.GetClassStudents(classId);
+
+            //var results = students.ToStudentDtos();
+
+            return students;
+        }
+
+        public Dictionary<int, List<Student>> GetGroupedStudents()
+        {
+            var results = unitOfWork.Students.GetGroupedStudents();
+
+            return results;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Core.Dtos;
 using Core.Services;
+using DataLayer.Dtos;
 using DataLayer.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,7 @@ namespace Project.Controllers
             this.studentService = studentService;
         }
 
-        [HttpPost("add")]
+        [HttpPost("/add")]
         public IActionResult Add(StudentAddDto payload)
         {
             var result = studentService.AddStudent(payload);
@@ -72,5 +73,20 @@ namespace Project.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{classId}/class-students")]
+        public IActionResult GetClassStudents([FromRoute] int classId)
+        {
+            var results = studentService.GetClassStudents(classId);
+
+            return Ok(results);
+        }
+
+        [HttpGet("grouped-students")]
+        public IActionResult GetGroupedStudents()
+        {
+            var results = studentService.GetGroupedStudents();
+
+            return Ok(results);
+        }
     }
 }
