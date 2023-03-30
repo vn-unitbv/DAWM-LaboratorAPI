@@ -2,9 +2,8 @@
 
 namespace DataLayer.Entities;
 
-public class Grade
+public class Grade : BaseEntity
 {
-    public int Id { get; set; }
     public double Value { get; set; }
     public CourseType Course { get; set; }
 

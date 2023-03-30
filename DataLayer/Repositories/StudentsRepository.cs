@@ -3,31 +3,11 @@ using DataLayer.Enums;
 
 namespace DataLayer.Repositories
 {
-    public class StudentsRepository
+    public class StudentsRepository : RepositoryBase<Student>
     {
         private readonly AppDbContext dbContext;
 
-        public StudentsRepository(AppDbContext dbContext)
-        {
-            this.dbContext = dbContext;
-        }
-
-        public List<Student> GetAll()
-        {
-            var results = dbContext.Students
-                .ToList();
-
-            return results;
-        }
-
-        public Student GetById(int studentId)
-        {
-            var result = dbContext.Students
-                .Where(e => e.Id == studentId)
-                .FirstOrDefault();
-
-            return result;
-        }
+        public StudentsRepository(AppDbContext dbContext) : base(dbContext) { }
 
         public Student GetByIdWithGrades(int studentId, CourseType type)
         {

@@ -1,31 +1,54 @@
 ﻿using Core.Dtos;
+using DataLayer;
 using DataLayer.Dtos;
 using DataLayer.Entities;
 using DataLayer.Enums;
 using DataLayer.Mapping;
-using DataLayer.Repositories;
 
 namespace Core.Services
 {
     public class StudentService
     {
-        private StudentsRepository studentsRepository { get; set; }
+        private readonly UnitOfWork unitOfWork;
 
-        public StudentService(StudentsRepository studentsRepository)
+        public StudentService(UnitOfWork unitOfWork)
         {
-            this.studentsRepository = studentsRepository;
+            this.unitOfWork = unitOfWork;
+        }
+
+        public StudentAddDto AddStudent(StudentAddDto payload)
+        {
+            if (payload == null) return null;
+
+            var existingClass = unitOfWork.Classes.GetById(payload.ClassId);
+            if (existingClass == null) return null;
+
+            var newStudent = new Student
+            {
+                FirstName = payload.FirstName,
+                LastName = payload.LastName,
+                DateOfBirth = payload.DateOfBirth,
+                Address = payload.Address,
+
+                ClassId = existingClass.Id
+            };
+
+            unitOfWork.Students.Insert(newStudent);
+            unitOfWork.SaveChanges();
+
+            return payload;
         }
 
         public List<Student> GetAll()
         {
-            var results = studentsRepository.GetAll();
+            var results = unitOfWork.Students.GetAll();
 
             return results;
         }
 
         public StudentDto GetById(int studentId)
         {
-            var student = studentsRepository.GetById(studentId);
+            var student = unitOfWork.Students.GetById(studentId);
 
             var result = student.ToStudentDto();
 
@@ -39,7 +62,7 @@ namespace Core.Services
                 return false;
             }
 
-            var result = studentsRepository.GetById(payload.Id);
+            var result = unitOfWork.Students.GetById(payload.Id);
             if (result == null) return false;
 
             result.FirstName = payload.FirstName;
@@ -50,7 +73,7 @@ namespace Core.Services
 
         public GradesByStudent GetGradesById(int studentId, CourseType courseType)
         {
-            var studentWithGrades = studentsRepository.GetByIdWithGrades(studentId, courseType);
+            var studentWithGrades = unitOfWork.Students.GetByIdWithGrades(studentId, courseType);
             
             var result = new GradesByStudent(studentWithGrades);
 

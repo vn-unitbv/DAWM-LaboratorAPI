@@ -5,17 +5,20 @@ namespace DataLayer
     public class UnitOfWork
     {
         public StudentsRepository Students { get; }
+        public ClassRepository Classes { get; }
 
         private readonly AppDbContext _dbContext;
 
         public UnitOfWork
         (
             AppDbContext dbContext,
-            StudentsRepository studentsRepository
+            StudentsRepository studentsRepository,
+            ClassRepository classes
         )
         {
             _dbContext = dbContext;
             Students = studentsRepository;
+            Classes = classes;
         }
 
         public void SaveChanges()

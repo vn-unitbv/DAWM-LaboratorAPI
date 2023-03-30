@@ -17,6 +17,20 @@ namespace Project.Controllers
             this.studentService = studentService;
         }
 
+        [HttpPost("add")]
+        public IActionResult Add(StudentAddDto payload)
+        {
+            var result = studentService.AddStudent(payload);
+
+            if (result == null)
+            {
+                return BadRequest("Student cannot be added");
+            }
+
+            return Ok(result);
+        }
+
+
         [HttpGet("/get-all")]
         public ActionResult<List<Student>> GetAll()
         {
