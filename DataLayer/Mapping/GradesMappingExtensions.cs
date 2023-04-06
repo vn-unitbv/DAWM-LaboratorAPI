@@ -12,6 +12,11 @@ namespace DataLayer.Mapping
     {
         public static List<GradeDto> ToGradeDtos(this List<Grade> grades)
         {
+            if (grades == null)
+            {
+                return null;
+            }
+
             var results = grades.Select(e => e.ToGradeDto()).ToList();  
 
             return results;

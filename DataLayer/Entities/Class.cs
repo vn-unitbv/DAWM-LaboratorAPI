@@ -1,9 +1,13 @@
-﻿namespace DataLayer.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-public class Class
+namespace DataLayer.Entities;
+
+public class Class : BaseEntity
 {
-    public int Id { get; set; }
     public string Name { get; set; }
 
     public List<Student> Students { get; set; }
+
+    [NotMapped]
+    public int StudentCount { get; set; }
 }

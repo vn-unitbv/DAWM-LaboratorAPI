@@ -1,4 +1,5 @@
 ﻿using Core.Dtos;
+using DataLayer;
 using DataLayer.Dtos;
 using DataLayer.Entities;
 using DataLayer.Enums;
@@ -9,19 +10,19 @@ namespace Core.Services
 {
     public class StudentService
     {
-        private StudentsRepository studentsRepository { get; set; }
+        private readonly UnitOfWork unitOfWork;
 
         private AuthorizationService authService { get; set; }
 
-        public StudentService(StudentsRepository studentsRepository, AuthorizationService authService)
+        public StudentService(UnitOfWork unitOfWork, AuthorizationService authService)
         {
-            this.studentsRepository = studentsRepository;
+            this.unitOfWork = unitOfWork;
             this.authService = authService;
         }
 
         public void Register(RegisterDto registerData)
         {
-            if(registerData == null) 
+            if (registerData == null)
             {
                 return;
             }
@@ -35,21 +36,18 @@ namespace Core.Services
                 Email = registerData.Email,
                 PasswordHash = hashedPassword,
             };
-
-            
-
         }
 
         public List<Student> GetAll()
         {
-            var results = studentsRepository.GetAll();
+            var results = unitOfWork.Students.GetAll();
 
             return results;
         }
 
         public StudentDto GetById(int studentId)
         {
-            var student = studentsRepository.GetById(studentId);
+            var student = unitOfWork.Students.GetById(studentId);
 
             var result = student.ToStudentDto();
 
@@ -63,7 +61,7 @@ namespace Core.Services
                 return false;
             }
 
-            var result = studentsRepository.GetById(payload.Id);
+            var result = unitOfWork.Students.GetById(payload.Id);
             if (result == null) return false;
 
             result.FirstName = payload.FirstName;
@@ -74,11 +72,27 @@ namespace Core.Services
 
         public GradesByStudent GetGradesById(int studentId, CourseType courseType)
         {
-            var studentWithGrades = studentsRepository.GetByIdWithGrades(studentId, courseType);
-            
+            var studentWithGrades = unitOfWork.Students.GetByIdWithGrades(studentId, courseType);
+
             var result = new GradesByStudent(studentWithGrades);
 
             return result;
+        }
+
+        public List<string> GetClassStudents(int classId)
+        {
+            var students = unitOfWork.Students.GetClassStudents(classId);
+
+            //var results = students.ToStudentDtos();
+
+            return students;
+        }
+
+        public Dictionary<int, List<Student>> GetGroupedStudents()
+        {
+            var results = unitOfWork.Students.GetGroupedStudents();
+
+            return results;
         }
     }
 }
