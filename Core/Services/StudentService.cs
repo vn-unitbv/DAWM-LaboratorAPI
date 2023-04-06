@@ -11,9 +11,33 @@ namespace Core.Services
     {
         private StudentsRepository studentsRepository { get; set; }
 
-        public StudentService(StudentsRepository studentsRepository)
+        private AuthorizationService authService { get; set; }
+
+        public StudentService(StudentsRepository studentsRepository, AuthorizationService authService)
         {
             this.studentsRepository = studentsRepository;
+            this.authService = authService;
+        }
+
+        public void Register(RegisterDto registerData)
+        {
+            if(registerData == null) 
+            {
+                return;
+            }
+
+            var hashedPassword = authService.HashPassword(registerData.Password);
+
+            var student = new Student
+            {
+                FirstName = registerData.FirstName,
+                LastName = registerData.LastName,
+                Email = registerData.Email,
+                PasswordHash = hashedPassword,
+            };
+
+            
+
         }
 
         public List<Student> GetAll()
