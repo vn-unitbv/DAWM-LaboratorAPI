@@ -36,6 +36,9 @@ namespace Core.Services
                 Email = registerData.Email,
                 PasswordHash = hashedPassword,
             };
+
+            unitOfWork.Students.Insert(student);
+            unitOfWork.SaveChanges();
         }
 
         public List<Student> GetAll()
@@ -52,6 +55,23 @@ namespace Core.Services
             var result = student.ToStudentDto();
 
             return result;
+        }
+
+        public string ValidateStudent(string email, string password)
+        {
+            var student = unitOfWork.Students.GetByEmail(email);
+
+            var passwordFine = authService.VerifyHashedPassword(student.PasswordHash, password);
+
+            if (passwordFine)
+            {
+                return authService.GetToken(student);
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
         public bool EditName(StudentUpdateDto payload)
