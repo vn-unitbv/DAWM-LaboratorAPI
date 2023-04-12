@@ -4,6 +4,7 @@ using DataLayer.Dtos;
 using DataLayer.Entities;
 using DataLayer.Enums;
 using DataLayer.Mapping;
+using Infrastructure.Exceptions;
 
 namespace Core.Services
 {
@@ -21,7 +22,8 @@ namespace Core.Services
             if (payload == null) return null;
 
             var existingClass = unitOfWork.Classes.GetById(payload.ClassId);
-            if (existingClass == null) return null;
+            if (existingClass == null)
+                throw new ResourceMissingException($"Class with id {payload.ClassId} doesn't exist");
 
             var newStudent = new Student
             {

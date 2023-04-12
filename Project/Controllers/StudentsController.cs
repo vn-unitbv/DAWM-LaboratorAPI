@@ -23,11 +23,6 @@ namespace Project.Controllers
         {
             var result = studentService.AddStudent(payload);
 
-            if (result == null)
-            {
-                return BadRequest("Student cannot be added");
-            }
-
             return Ok(result);
         }
 
