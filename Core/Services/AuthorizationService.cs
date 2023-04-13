@@ -10,13 +10,19 @@ namespace Core.Services
 {
     public class AuthorizationService
     {
-        private readonly string _securityKey = "B?D(G+KbPeShVmYq";
+        private readonly string _securityKey;
 
         private int PBKDF2IterCount = 1000;
         private int PBKDF2SubkeyLength = 256 / 8;
         private int SaltSize = 128 / 8;
 
-        public string GetToken(Student user)
+
+        public AuthorizationService(IConfiguration config)
+        {
+            _securityKey = config["JWT:SecurityKey"];
+        }
+
+        public string GetToken(Student user, string role)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -28,7 +34,7 @@ namespace Core.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_securityKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var roleClaim = new Claim("role", "User");
+            var roleClaim = new Claim("role", role);
             var idClaim = new Claim("userId", user.Id.ToString());
             var infoClaim = new Claim("username", user.Email);
 

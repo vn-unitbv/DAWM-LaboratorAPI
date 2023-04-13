@@ -35,10 +35,42 @@ namespace Core.Services
                 LastName = registerData.LastName,
                 Email = registerData.Email,
                 PasswordHash = hashedPassword,
+                ClassId = registerData.ClassId
             };
 
             unitOfWork.Students.Insert(student);
             unitOfWork.SaveChanges();
+        }
+
+        public string Validate(LoginDto payload)
+        {
+            var student = unitOfWork.Students.GetByEmail(payload.Email);
+
+            var passwordFine = authService.VerifyHashedPassword(student.PasswordHash, payload.Password);
+
+            if (passwordFine)
+            {
+                var role = GetRole(student);
+
+                return authService.GetToken(student, role);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        public string GetRole(Student student)
+        {
+            if(student.Email == "alexandra.donici@cst.ro")
+            {
+                return "Teacher";
+            }
+            else
+            {
+                return "Student";
+            }
         }
 
         public List<Student> GetAll()
@@ -55,23 +87,6 @@ namespace Core.Services
             var result = student.ToStudentDto();
 
             return result;
-        }
-
-        public string ValidateStudent(string email, string password)
-        {
-            var student = unitOfWork.Students.GetByEmail(email);
-
-            var passwordFine = authService.VerifyHashedPassword(student.PasswordHash, password);
-
-            if (passwordFine)
-            {
-                return authService.GetToken(student);
-            }
-            else
-            {
-                return null;
-            }
-
         }
 
         public bool EditName(StudentUpdateDto payload)
