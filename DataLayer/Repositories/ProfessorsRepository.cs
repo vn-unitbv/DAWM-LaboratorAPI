@@ -9,5 +9,10 @@ namespace DataLayer.Repositories
         public ProfessorsRepository(AppDbContext dbContext) : base(dbContext) 
         {
         }
+
+        public Professor GetByEmail(string email)
+        {
+            return GetRecords().FirstOrDefault(s => s.Email == email);
+        }
     }
 }
