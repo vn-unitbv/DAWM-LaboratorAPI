@@ -1,9 +1,7 @@
-﻿using DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Dtos;
+using DataLayer;
+using DataLayer.Mapping;
+using GradeDto = DataLayer.Dtos.GradeDto;
 
 namespace Core.Services
 {
@@ -14,6 +12,23 @@ namespace Core.Services
         public GradeService(UnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
+        }
+
+        public List<GradeDto> GetGradesForStudent(int studentId)
+        {
+            var student = unitOfWork.Students.GetById(studentId);
+
+            if (student == null) return new();
+
+            return student.Grades.ToGradeDtos();
+        }
+
+        public List<GradesByStudent> GetGradesForAllStudents()
+        {
+            return unitOfWork.Students
+                .GetAll()
+                .Select(e => new GradesByStudent(e))
+                .ToList();
         }
     }
 }
