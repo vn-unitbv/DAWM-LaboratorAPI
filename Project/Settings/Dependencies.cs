@@ -25,6 +25,7 @@ namespace Project.Settings
             services.AddScoped<AuthorizationService>();
             services.AddScoped<ClassService>();
             services.AddScoped<GradeService>();
+            services.AddScoped<ProfessorService>();
         }
 
         private static void AddRepositories(IServiceCollection services)
