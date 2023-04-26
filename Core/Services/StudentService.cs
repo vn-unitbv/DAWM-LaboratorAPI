@@ -50,27 +50,13 @@ namespace Core.Services
 
             if (passwordFine)
             {
-                var role = GetRole(student);
-
-                return authService.GetToken(student, role);
+                return authService.GetToken(student);
             }
             else
             {
                 return null;
             }
 
-        }
-
-        public string GetRole(Student student)
-        {
-            if(student.Email == "alexandra.donici@cst.ro")
-            {
-                return "Teacher";
-            }
-            else
-            {
-                return "Student";
-            }
         }
 
         public List<Student> GetAll()
