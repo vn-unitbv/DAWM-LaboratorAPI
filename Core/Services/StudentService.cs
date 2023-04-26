@@ -4,6 +4,7 @@ using DataLayer.Dtos;
 using DataLayer.Entities;
 using DataLayer.Enums;
 using DataLayer.Mapping;
+using DataLayer.Repositories;
 
 namespace Core.Services
 {
@@ -11,32 +12,52 @@ namespace Core.Services
     {
         private readonly UnitOfWork unitOfWork;
 
-        public StudentService(UnitOfWork unitOfWork)
+        private AuthorizationService authService { get; set; }
+
+        public StudentService(UnitOfWork unitOfWork, AuthorizationService authService)
         {
             this.unitOfWork = unitOfWork;
+            this.authService = authService;
         }
 
-        public StudentAddDto AddStudent(StudentAddDto payload)
+        public void Register(RegisterDto registerData)
         {
-            if (payload == null) return null;
-
-            var existingClass = unitOfWork.Classes.GetById(payload.ClassId);
-            if (existingClass == null) return null;
-
-            var newStudent = new Student
+            if (registerData == null)
             {
-                FirstName = payload.FirstName,
-                LastName = payload.LastName,
-                DateOfBirth = payload.DateOfBirth,
-                Address = payload.Address,
+                return;
+            }
 
-                ClassId = existingClass.Id
+            var hashedPassword = authService.HashPassword(registerData.Password);
+
+            var student = new Student
+            {
+                FirstName = registerData.FirstName,
+                LastName = registerData.LastName,
+                Email = registerData.Email,
+                PasswordHash = hashedPassword,
+                ClassId = registerData.ClassId,
+                Role = "Student"
             };
 
-            unitOfWork.Students.Insert(newStudent);
+            unitOfWork.Students.Insert(student);
             unitOfWork.SaveChanges();
+        }
 
-            return payload;
+        public string Validate(LoginDto payload)
+        {
+            var student = unitOfWork.Students.GetByEmail(payload.Email);
+
+            var passwordFine = authService.VerifyHashedPassword(student.PasswordHash, payload.Password);
+
+            if (passwordFine)
+            {
+                return authService.GetToken(student);
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
         public List<Student> GetAll()
@@ -74,7 +95,7 @@ namespace Core.Services
         public GradesByStudent GetGradesById(int studentId, CourseType courseType)
         {
             var studentWithGrades = unitOfWork.Students.GetByIdWithGrades(studentId, courseType);
-            
+
             var result = new GradesByStudent(studentWithGrades);
 
             return result;

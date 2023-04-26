@@ -22,13 +22,18 @@ namespace Project.Settings
         private static void AddServices(IServiceCollection services)
         {
             services.AddScoped<StudentService>();
+            services.AddScoped<AuthorizationService>();
             services.AddScoped<ClassService>();
+            services.AddScoped<GradeService>();
+            services.AddScoped<ProfessorService>();
         }
 
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<StudentsRepository>();
             services.AddScoped<ClassRepository>();
+            services.AddScoped<GradesRepository>();
+            services.AddScoped<ProfessorsRepository>();
             services.AddScoped<UnitOfWork>();
         }
 

@@ -50,6 +50,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("Course")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
@@ -63,7 +66,7 @@ namespace DataLayer.Migrations
                     b.ToTable("Grades");
                 });
 
-            modelBuilder.Entity("DataLayer.Entities.Student", b =>
+            modelBuilder.Entity("DataLayer.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,11 +77,11 @@ namespace DataLayer.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -86,11 +89,37 @@ namespace DataLayer.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.ToTable("Users");
+
+                    b.HasDiscriminator<string>("Role").HasValue("User");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Professor", b =>
+                {
+                    b.HasBaseType("DataLayer.Entities.User");
+
+                    b.HasDiscriminator().HasValue("Professor");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Student", b =>
+                {
+                    b.HasBaseType("DataLayer.Entities.User");
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
 
                     b.HasIndex("ClassId");
 
-                    b.ToTable("Students");
+                    b.HasDiscriminator().HasValue("Student");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Grade", b =>
