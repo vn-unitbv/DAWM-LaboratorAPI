@@ -35,6 +35,7 @@ namespace Core.Services
                 LastName = registerData.LastName,
                 Email = registerData.Email,
                 PasswordHash = hashedPassword,
+                Role = "Professor"
             };
 
             unitOfWork.Professors.Insert(professor);

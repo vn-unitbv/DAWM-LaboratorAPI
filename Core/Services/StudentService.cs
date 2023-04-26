@@ -35,7 +35,8 @@ namespace Core.Services
                 LastName = registerData.LastName,
                 Email = registerData.Email,
                 PasswordHash = hashedPassword,
-                ClassId = registerData.ClassId
+                ClassId = registerData.ClassId,
+                Role = "Student"
             };
 
             unitOfWork.Students.Insert(student);
