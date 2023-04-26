@@ -32,6 +32,7 @@ namespace Project.Settings
             services.AddScoped<StudentsRepository>();
             services.AddScoped<ClassRepository>();
             services.AddScoped<GradesRepository>();
+            services.AddScoped<ProfessorsRepository>();
             services.AddScoped<UnitOfWork>();
         }
 
