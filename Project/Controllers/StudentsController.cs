@@ -21,7 +21,7 @@ namespace Project.Controllers
             this.studentService = studentService;
         }
 
-        [HttpPost("/register")]
+        [HttpPost("register")]
         [AllowAnonymous]
         public IActionResult Register(RegisterDto payload)
         {
@@ -29,7 +29,7 @@ namespace Project.Controllers
             return Ok();
         }
 
-        [HttpPost("/login")]
+        [HttpPost("login")]
         [AllowAnonymous]
         public IActionResult Login(LoginDto payload)
         {
