@@ -24,12 +24,14 @@ namespace Project.Settings
             services.AddScoped<StudentService>();
             services.AddScoped<AuthorizationService>();
             services.AddScoped<ClassService>();
+            services.AddScoped<GradeService>();
         }
 
         private static void AddRepositories(IServiceCollection services)
         {
             services.AddScoped<StudentsRepository>();
             services.AddScoped<ClassRepository>();
+            services.AddScoped<GradesRepository>();
             services.AddScoped<UnitOfWork>();
         }
 
